@@ -1,0 +1,12 @@
+{
+  "name": "launch-explorer",
+  "displayName": "launch-explorer",
+  "expo": {
+    "name": "launch-explorer",
+    "slug": "launch-explorer",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
