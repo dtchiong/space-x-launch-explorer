@@ -3,7 +3,9 @@ const requestOptions = {
   redirect: 'follow',
 };
 
-export async function getAllLaunches(limit = 10, offset = 0) {
+export const DEFAULT_LIST_LIMIT = 10;
+
+export async function getAllLaunches(offset = 0, limit = DEFAULT_LIST_LIMIT) {
   const encodedLimit = encodeURIComponent(limit);
   const encodedOffset = encodeURIComponent(offset);
 
@@ -13,7 +15,6 @@ export async function getAllLaunches(limit = 10, offset = 0) {
       requestOptions,
     );
     const result = await response.json();
-    console.log(result);
     return result;
   } catch (err) {
     console.log(err);

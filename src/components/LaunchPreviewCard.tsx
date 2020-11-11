@@ -1,11 +1,16 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet } from 'react-native';
+import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const IMAGE_WIDTH = 100;
 
 const LaunchPreviewCard = ({ launch, width }) => {
+  const onPressCard = () => {
+    console.log('navigating to launchDetailsScreen');
+    // navigation.navigate('launchDetailsScreen', { launch });
+  };
+
   return (
-    <View style={[styles.container, { width }]}>
+    <TouchableOpacity onPress={() => onPressCard} style={[styles.container, { width }]}>
       <Image resizeMode="cover" source={{ uri: launch.links.mission_patch_small }} style={styles.image}></Image>
       <View style={styles.infoContainer}>
         <Text>{launch.mission_name}</Text>
@@ -13,7 +18,7 @@ const LaunchPreviewCard = ({ launch, width }) => {
           {launch.details}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
