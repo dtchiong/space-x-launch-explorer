@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, View, SafeAreaView, StyleSheet, Text } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Dimensions, FlatList, View, SafeAreaView, StyleSheet, Text } from 'react-native';
 
 import { getAllLaunches } from '../api/api';
+import LaunchPreviewCard from '../components/LaunchPreviewCard';
+
+const SCREEN_HORIZONTAL_PADDING = 10;
+
+const ItemSeparator = () => <View style={styles.separator} />;
 
 const LaunchListScreen = () => {
   const [launches, setLaunches] = useState(null);
@@ -17,18 +22,44 @@ const LaunchListScreen = () => {
     fetchLaunches();
   }, []);
 
-  console.log('launches', launches);
+  const screenWidth = Dimensions.get('window').width;
+
+  const keyExtractor = useCallback((launch, index) => {
+    return (launch?.flight_number || index).toString();
+  }, []);
+
+  const renderItem = useCallback(({ item }) => {
+    const cardWidth = screenWidth - 2 * SCREEN_HORIZONTAL_PADDING;
+    return <LaunchPreviewCard launch={item} width={cardWidth}></LaunchPreviewCard>;
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Sup</Text>
+      <FlatList
+        automaticallyAdjustContentInsets={false}
+        contentContainerStyle={styles.launchListContentContainer}
+        data={launches || []}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        ItemSeparatorComponent={ItemSeparator}
+        style={styles.launchListContainer}
+      ></FlatList>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+  },
+  separator: {
+    height: 10,
+  },
+  launchListContentContainer: {
+    paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
+  },
+  launchListContainer: {
+    marginBottom: 60,
   },
 });
 
